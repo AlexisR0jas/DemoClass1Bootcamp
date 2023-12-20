@@ -13,7 +13,7 @@ while (true)
     //Convierte el numero de opcion al enum OptionsEnum que lo definimos en el archivo utils/OptionsEnum.cs
     OptionEnum optionEnum = (OptionEnum)opcion;
 
-    if (opcion == 5)
+    if (opcion == 6)
     {
         return;
     }
@@ -23,8 +23,9 @@ while (true)
     {
         OptionEnum.Add => BookService.AddBook(),
         OptionEnum.Update => BookService.UpdateBook(),
-        OptionEnum.Delete => "Eliminar Libro",
+        OptionEnum.Delete => BookService.DeleteBook(),
         OptionEnum.Get => BookService.GetAll(),
+        OptionEnum.GetByName => BookService.GetByName(),
         OptionEnum.Exit => "Salir",
         _ => "Opcion no valida"
     };
@@ -42,8 +43,9 @@ static int? Options()
     Console.WriteLine("2. Editar un Libro");
     Console.WriteLine("3. Eliminar un Libro");
     Console.WriteLine("4. Obtener Listado de Libros");
-    Console.WriteLine("5. Salir");
+    Console.WriteLine("5. Obtener libro por el nombre");
+    Console.WriteLine("6. Salir");
 
     var opcion = Console.ReadLine();
-    return Convert.ToInt16(opcion);
+    return int.Parse(opcion);
 }

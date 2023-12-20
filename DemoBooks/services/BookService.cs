@@ -8,7 +8,7 @@ namespace DemoBooks.services
         public static List<Book> books = new List<Book>();
 
         //Método para crear un libro, este método es llamado desde el Program.cs
-        public static string AddBook() 
+        public static string AddBook()
         {
             //Ingreso de datos por consola
             Console.WriteLine("AddBook");
@@ -36,6 +36,9 @@ namespace DemoBooks.services
 
         }
 
+
+
+
         //Método para actualizar un libro llamado desde el Program.cs
         public static string UpdateBook()
         {
@@ -44,6 +47,15 @@ namespace DemoBooks.services
 
             Console.WriteLine("Ingrese el Id del libro");
             int id = Convert.ToInt16(Console.ReadLine());
+
+            var book = books.FirstOrDefault(x => x.Id == id);
+
+            //Validar si el libro existe
+            if (book == null)
+            {
+                return $"El libro con Id {id} no existe";
+            }
+
             Console.WriteLine("Ingrese el titulo del libro");
             string title = Console.ReadLine();
             Console.WriteLine("Ingrese el autor del libro");
@@ -52,13 +64,7 @@ namespace DemoBooks.services
             string category = Console.ReadLine();
 
             //Buscar el libro por el id ingresado, dentro de la lista de libros
-            var book = books.FirstOrDefault(x => x.Id == id);
 
-            //Validar si el libro existe
-            if (book == null)
-            {
-                return $"El libro con Id {id} no existe";
-            }
 
             //Actualizar los datos del libro
             book.Title = title;
@@ -68,6 +74,53 @@ namespace DemoBooks.services
             return $"El libro con el id {book.Id} ha sido actualizado correctamente";
         }
 
+        // Metodo para Elimina un libro
+
+        public static string Eliminar()
+        {
+            Console.WriteLine("Eliminar Libro");
+
+            Console.WriteLine("Ingrese el id del libro: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Book book = books.FirstOrDefault(x => x.Id == id);
+
+            if (book == null)
+            {
+                return $"No existe un libro con el id {id}";
+            }
+
+            string eliminar;
+            do
+            {
+                Console.WriteLine("Está seguro de eliminar este libro? (Si - S, No - N) ");
+                eliminar = Console.ReadLine();
+
+            } while (eliminar != 'S'.ToString() && eliminar != 'N'.ToString());
+
+            if (eliminar == 'S'.ToString())
+            {
+                Console.WriteLine("Id: " + book.Id);
+                Console.WriteLine("Titulo: " + book.Title);
+                Console.WriteLine("Autor: " + book.Author);
+                Console.WriteLine("Categoria: " + book.Category);
+                books.RemoveAt(id - 1);
+                return "Libro eliminado correctamente!";
+            }
+            else
+            {
+                return "Usted ha decidido no eliminar el libro";
+            }
+
+
+
+
+
+
+
+
+        }
+
         //Método para listar todos los libros llamado desde el Program.cs
         public static string GetAll()
         {
@@ -75,7 +128,7 @@ namespace DemoBooks.services
             Console.WriteLine("Listado de Libros");
 
             //Validar si existen libros en la lista
-            if(books == null)
+            if (books == null)
                 message = "No hay libros disponibles";
 
 
@@ -88,6 +141,26 @@ namespace DemoBooks.services
 
             }
             return builder.ToString();
+        }
+
+        public static string BuscarPorNombre()
+        {
+            Console.WriteLine("Búsqueda del libro por título");
+
+            Console.WriteLine("Ingrese el nombre del libro");
+            string name = Console.ReadLine();
+
+            Book book = books.Find(x => x.Title == name);
+            if (book == null)
+            {
+                return $"No existe un libro con el nombre {name}";
+            }
+            // prueba commitcdf
+
+            string message = $"Libro: {book.Title}\nAutor: {book.Author}\n Categoria: {book.Category}\n Disponibilidad: {book.IsAvailable}\n";
+
+            return message;
+
         }
     }
 }

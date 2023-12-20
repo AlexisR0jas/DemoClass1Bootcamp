@@ -6,6 +6,7 @@
         Update = 2,
         Delete = 3,
         Get = 4,
-        Exit = 5
+        GetByName = 5,
+        Exit = 6
     }
 }
